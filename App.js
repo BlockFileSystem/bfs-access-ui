@@ -9,6 +9,7 @@ import kawai_noBfsAccess from '../kawai_noBfsAccess.png'
 import metamask_not_connected from '../metamask_not_connected.png'
 import ErrorSmartContract from '../ErrorSmartContract.png'
 
+
 class App extends Component {
 
   async componentWillMount() {
@@ -44,7 +45,8 @@ class App extends Component {
       const noSmartContract = false
       this.setState({noSmartContract})
       // Load account
-      const accounts = await web3.eth.getAccounts()
+      //const accounts = await web3.eth.getAccounts()
+      const accounts = await web3.eth.requestAccounts()
       this.setState({ account: accounts[0] })
       const networkId = await web3.eth.net.getId()
       const networkData = BfsAccess.networks[networkId]
@@ -76,7 +78,8 @@ class App extends Component {
               accessIds: [...this.state.accessIds, accessId]
             })
             this.setState({
-              bfsIds: [...this.state.bfsIds, bfsId.toNumber()]
+              //bfsIds: [...this.state.bfsIds, bfsId.toNumber()]
+              bfsIds: [...this.state.bfsIds, parseInt(bfsId)]
             })
           }
           
@@ -90,13 +93,16 @@ class App extends Component {
   }
 
   mint = (accessId) => {    
-      
-    this.state.contract.methods.mint(accessId).send({ from: this.state.account })
-    .once('receipt', (receipt) => {
-      this.setState({
-        accessIds: [...this.state.accessIds, accessId]
+    if (validator.isURL(accessId,{require_protocol: true})) {
+      this.state.contract.methods.mint(accessId).send({ from: this.state.account })
+      .once('receipt', (receipt) => {
+        this.setState({
+          accessIds: [...this.state.accessIds, accessId]
+        })
       })
-    })
+    } else {
+       window.alert('Invalid URL')
+    }
   }
 
   constructor(props) {
@@ -106,6 +112,7 @@ class App extends Component {
       contract: null,
       totalSupply: 0,
       accessIds: [],
+      jsonData: [],
       bfsIds: []
     }
   }
@@ -113,17 +120,18 @@ class App extends Component {
   render() {
     const noNetwork = this.state.noNetwork;
     const noSmartContract = this.state.noSmartContract
-    const displayMint = this.state.displayMint
+    const displayMint = this.state.displayMint  
+
     return (
       <div>
         <nav className="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow">
           <a
             className="navbar-brand col-sm-3 col-md-2 mr-0"
-            href="http://www.blockfilesystem.com/bfsaccess/"
+            href="."
             
             rel="noopener noreferrer"
           >
-            BFS-Access @Mainnet [beta]
+            BFS-Access [beta]
           </a>
           <ul className="navbar-nav px-3">
             <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
@@ -131,7 +139,7 @@ class App extends Component {
             </li>
           </ul>
         </nav>
-
+        
         <div className="container-fluid mt-5 col-sm-9">
           <div className="">
             <main role="main" className="col-sm-12 text-center">
@@ -145,9 +153,9 @@ class App extends Component {
                  <div> {displayMint == true && 
                   <input
                     type='text'
-                    maxLength='45'
+                    maxLength='100'
                     className='form-control mb-3'
-                    placeholder='Ethereum address, URL, UUID type 4, IPFS Hash, json file location...'
+                    placeholder='JSON file location (e.g. https://ipfs.io/ipfs/IPFS_Hash)'
                     required
                     ref={(input) => { this.accessId = input }}
                   /> }</div>
@@ -171,8 +179,8 @@ class App extends Component {
               if(!accessId) {return (<div key={key} className="col-md-12 mb-12"><img className="noBfsAccess" src={kawai_noBfsAccess} alt="" /><div><br/>looks like you have no BFS-Access in this wallet.</div></div>)}
               return(
                 <div key={key} className="col-md-6 mb-6" >
-                  <br/><div className="token3" style={{ backgroundColor: "#b34fff" }}><div className="token2" style={{ backgroundColor: "#7533a6" }}> <div className="token" style={{ backgroundColor: "#8a3cc4" }}><img className="unlock" src={BFS_icon} alt="" /><div className="id"> {bfsIds[key]}</div></div></div></div>
-                     <div className="accessId">{accessId}</div>
+                  <br/><div className="token3" style={{ backgroundColor: "#6c25be" }}><img className="unlock" src={BFS_icon} alt="" /><div className="id"><b>BFS-Access #{bfsIds[key]}</b></div><div className="token2" style={{ backgroundColor: "" }}><div className="accessId"><b>METADATA<a href={accessId}><br/>{accessId.substring(0,27)}...{accessId.substring(52,67)}</a></b></div><div className="token" style={{ backgroundColor: "" }}><div className="ownerAddress"><b>Ownersip Address</b> {this.state.account}</div></div></div></div>
+                    
                 </div>
               )
             })}

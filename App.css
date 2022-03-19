@@ -1,37 +1,64 @@
 /* Styles go here */
+/* background color website : #0f1625 */
+/*purple color : #B34FFF */
+/* Card purple : #6c25be; */
 
 .token {
-  height: 150px;
+  /*height: 150px;
   width: 150px;
+  border-radius: 50%;*/
+  height: 200px;
+  width: 300px;
   border-radius: 50%;
   display: inline-block;
+  vertical-align: baseline;
   margin-top: 5px;
 }
 
 .token2 {
-  height: 160px;
+  /*height: 160px;
   width: 160px;
-  border-radius: 50%;
+  border-radius: 50%;*/
+  height: 220px;
+  width: 320px;
+  border-radius: 8%;
   display: inline-block;
   margin-top: 12px;
 }
 
 .token3 {
-  height: 185px;
-  width: 185px;
-  border-radius: 50%;
+  /*height: 185px;
+  width: 185px;*/
+  height: 250px;
+  width: 360px;
+  /*border-radius: 50%;*/
+  border-radius: 6%;
   display: inline-block;
+  color: #FFFFFF;
 }
 
 .unlock {
-  height: 70px;
-  width: 100px;
+  height: 50px;
+  width: 70px;
   vertical-align: baseline;
-  margin-top:30px;
+  float:left;
+  margin-top:15px;
+  margin-left:15px;
 }
 
 .accessId{
 	font-size:11px;
+  margin-top:20px;
+}
+
+.accessId a {
+  color:#ffffff;
+  text-decoration: underline;
+}
+
+.ownerAddress{
+  font-size:11px;
+  margin-top:60px;
 }
 
 .noBfsAccess {
@@ -80,6 +107,9 @@
 .id{
 	color: #FFFFFF;
 	font-size:12px;
+  margin-top:27px;
+  margin-right:20px;
+  float:right;
 }
 
 .navbar {
