@@ -171,17 +171,51 @@ class App extends Component {
             </main>
           </div>
           <div className="separator" ></div>
-          <div> {noNetwork == true && <div className="error col-md-12 mb-12"><img className="nonEthereumBrowser" src={metamask_not_connected} alt="" /><div>Metamask is not connected !</div><br/><br/></div>} </div>
-          <div> {noSmartContract == true && <div className="error col-md-12 mb-12"><img className="nonEthereumBrowser" src={ErrorSmartContract} alt="" /><div>Smart contract not deployed to detected network.</div><br/><br/></div>} </div>
+          <div> {noNetwork == true && 
+			<div className="error col-md-12 mb-12">
+				<img className="nonEthereumBrowser" src={metamask_not_connected} alt="" />
+				<div>Metamask is not connected !</div>
+				<br/><br/>
+			</div>} 
+		  </div>
+          <div> {noSmartContract == true && 
+			<div className="error col-md-12 mb-12">
+				<img className="nonEthereumBrowser" src={ErrorSmartContract} alt="" />
+				<div>Smart contract not deployed to detected network.</div>
+				<br/><br/>
+			</div>} 
+		  </div>
           <div className="row text-center">
             { this.state.accessIds.map((accessId, key) => { 
               const bfsIds = this.state.bfsIds
-              if(!accessId) {return (<div key={key} className="col-md-12 mb-12"><img className="noBfsAccess" src={kawai_noBfsAccess} alt="" /><div><br/>looks like you have no BFS-Access in this wallet.</div></div>)}
-              return(
-                <div key={key} className="col-md-6 mb-6" >
-                  <br/><div className="token3" style={{ backgroundColor: "#6c25be" }}><img className="unlock" src={BFS_icon} alt="" /><div className="id"><b>BFS-Access #{bfsIds[key]}</b></div><div className="token2" style={{ backgroundColor: "" }}><div className="accessId"><b>METADATA<a href={accessId}><br/>{accessId.substring(0,27)}...{accessId.substring(52,67)}</a></b></div><div className="token" style={{ backgroundColor: "" }}><div className="ownerAddress"><b>Ownersip Address</b> {this.state.account}</div></div></div></div>
-                    
-                </div>
+              if(!accessId) {return 
+			  (<div key={key} className="col-md-12 mb-12">
+					<img className="noBfsAccess" src={kawai_noBfsAccess} alt="" />
+					<div>
+						<br/>looks like you have no BFS-Access in this wallet.
+					</div>
+				</div>)
+			}
+            return(
+				<div key={key} className="col-md-6 mb-6" >
+					<br/>
+					<div className="token3" style={{ backgroundColor: "#6c25be" }}>
+						<img className="unlock" src={BFS_icon} alt="" />
+						<div className="id">
+							<b>BFS-Access #{bfsIds[key]}</b>
+						</div>
+						<div className="token2" style={{ backgroundColor: "" }}>
+							<div className="accessId">
+								<b>METADATA<a href={accessId}><br/>{accessId.substring(0,27)}...{accessId.substring(52,67)}</a></b>
+							</div>
+							<div className="token" style={{ backgroundColor: "" }}>
+								<div className="ownerAddress">
+									<b>Ownersip Address</b> {this.state.account}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
               )
             })}
           </div>
